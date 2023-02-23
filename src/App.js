@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [salary, setSalary] = useState(0);
+  const [tax, setTax] = useState(0);
+
+  const calculateTax = () => {
+    let calculatedTax = 0;
+
+    if (salary > 0 && salary <= 18200) {
+      calculatedTax = 0;
+    } else if (salary > 18200 && salary <= 45000) {
+      calculatedTax = (salary - 18200) * 0.19;
+    } else if (salary > 45000 && salary <= 120000) {
+      calculatedTax = 5092 + (salary - 45000) * 0.325;
+    } else if (salary > 120000 && salary <= 180000) {
+      calculatedTax = 29467 + (salary - 120000) * 0.37;
+    } else if (salary > 180000) {
+      calculatedTax = 51667 + (salary - 180000) * 0.45;
+    }
+
+    setTax(calculatedTax);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Salary Tax Calculator</h1>
+      <label>Enter your salary:</label>
+      <input type="number" value={salary} onChange={(e) => setSalary(parseInt(e.target.value))} />
+      <button onClick={calculateTax}>Calculate Tax</button>
+      {tax > 0 && <p>Your tax is: ${tax.toFixed(2)}</p>}
     </div>
   );
 }
