@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function App() {
   const [salary, setSalary] = useState(0);
@@ -22,11 +22,24 @@ function App() {
     setTax(calculatedTax);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      calculateTax();
+    }
+  };
+
   return (
     <div>
       <h1>Salary Tax Calculator</h1>
-      <label>Enter your salary:</label>
-      <input type="number" value={salary} onChange={(e) => setSalary(parseInt(e.target.value))} />
+      <label htmlFor="salaryInput">Enter your salary:</label>
+      <input
+        type="number"
+        id="salaryInput"
+        value={salary}
+        onChange={(e) => setSalary(parseInt(e.target.value))}
+        onKeyDown={handleKeyDown}
+        autoFocus
+      />
       <button onClick={calculateTax}>Calculate Tax</button>
       {tax > 0 && <p>Your tax is: ${tax.toFixed(2)}</p>}
     </div>
